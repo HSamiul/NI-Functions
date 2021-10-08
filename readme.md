@@ -14,9 +14,9 @@ Any utility not in this list is yet to be added
 * perform relevant math functions
 * extend existing Swift math types to be more useful
 
-## Currently in progress
+## In progress
 Includes utility in this repository that is **not yet complete nor correct**
-Any already added functionality is subject to modification or extension
+Any already added functionality is subject to modification or extension/
 * handle mpc sessions
 
 
