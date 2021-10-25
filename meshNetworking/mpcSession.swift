@@ -15,7 +15,9 @@ class Session: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, M
     private let nearbyServiceAdvertiser: MCNearbyServiceAdvertiser /* The advertisement, visualized as a popup, for your service */
     private let nearbyServiceBrowser: MCNearbyServiceBrowser /* Searches for other devices to invite to your serivce */
     
-    var peerDataHandler: ((Data, MCPeerID) -> Void)?
+    var peerDataHandler: ((Data, MCPeerID) -> Void)? /* Where are these handlers defined? */
+    var peerConnectedHandler: ((MCPeerID) -> Void)?
+    var peerDisconnectedHandler: ((MCPeerID) -> Void)?
     
     /* internal means any file within the same module as this file can acccess this function */
     /* MCSessionDelegate protocol requires all these session functions to be implemented, even if we don't use all of them */
@@ -102,4 +104,23 @@ class Session: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, M
     func sendDataToAllPeers(data: Data) {
         sendDataToPeer(data: data, peers: session.connectedPeers, mode: .reliable)
     }
+    
+    private func peerConnected(peerID: MCPeerID) {
+        if let handler = peerConnectedHandler {
+            DispatchQueue.main.async {
+                handler(peerID)
+            }
+        }
+    }
+
+    private func peerDisconnected(peerID: MCPeerID) {
+        if let handler = peerDisconnectedHandler {
+            DispatchQueue.main.async {
+                handler(peerID)
+            }
+        }
+
+        self.startDiscovery()
+    }
 }
+
