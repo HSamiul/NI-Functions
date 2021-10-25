@@ -119,8 +119,15 @@ class Session: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, M
                 handler(peerID)
             }
         }
-
         self.startDiscovery()
+    }
+    
+    func getPeerID() -> MCPeerID {
+        return peerID
+    }
+    
+    func getServiceString() -> String {
+        return serviceString
     }
 }
 
